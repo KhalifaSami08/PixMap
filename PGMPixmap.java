@@ -21,6 +21,28 @@ public class PGMPixmap extends Pixmap {
     }
 
     @Override
+    public PGMPixmap doSomethingSpecial() {
+        ArtPixel[][] artParam = getArtPixels();
+        ArtPixel[][] newArtixel = new ArtPixel[artParam.length][artParam[0].length];
+        for (int i = 0; i < artParam.length; i++) {
+            for (int j = 0; j < artParam[0].length; j++) {
+                newArtixel[i][j] = artParam[i][j];
+                newArtixel[i][j].setColor( inverseColor( artParam[i][j].getColor() ) );
+            }
+        }
+        return new PGMPixmap(newArtixel,getSize(),getLigne1(),getLigne2(),getLigne3(),getLigneArtPixel(),getColArtPixel() ) ;
+    }
+
+    private Color inverseColor(Color c){
+
+        int max = Integer.parseInt(getLigne3());
+        double newR = max - c.getR()  * max / 255 ;
+        int newGris = (int)newR *255 / max;
+        return new Color(newGris,newGris,newGris);
+
+    }
+
+    @Override
     public Pixmap getConcat(Pixmap p){
         System.out.println("Nouveau Pixmap PGM crée ! ");
         return new PGMPixmap(ConcatArtpixel(p) ,getSize(),getLigne1(),getLigne2(),getLigne3(),getLigneArtPixel(),p.getColArtPixel() );

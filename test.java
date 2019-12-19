@@ -74,7 +74,15 @@ public class test {
         emot1.writeToFile("emot1");
         emot2.writeToFile("emot2");
 
+        Pixmap p1 = myMap1.doSomethingSpecial();
+        Pixmap p2 = myMap2.doSomethingSpecial();
+        Pixmap p3 = myMap3.doSomethingSpecial();
+        p1.writeToFile("doSomethingSpecial1");
+        p2.writeToFile("doSomethingSpecial2");
+        p3.writeToFile("doSomethingSpecial3");
 
 
     }
+
+
 }

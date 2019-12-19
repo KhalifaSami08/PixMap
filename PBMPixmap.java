@@ -23,6 +23,31 @@ public class PBMPixmap extends Pixmap {
     }
 
     @Override
+    public PBMPixmap doSomethingSpecial() {
+
+        ArtPixel[][] artParam = getArtPixels();
+        ArtPixel[][] newArtixel = new ArtPixel[artParam.length][artParam[0].length];
+        for (int i = 0; i < artParam.length; i++) {
+            for (int j = 0; j < artParam[0].length; j++) {
+                newArtixel[i][j] = artParam[i][j];
+                newArtixel[i][j].setColor( inverseColor( artParam[i][j].getColor() ) );
+            }
+        }
+        return new PBMPixmap(newArtixel,getSize(),getLigne1(),getLigne2(),getLigne3(),getLigneArtPixel(),getColArtPixel() ) ;
+    }
+
+    private Color inverseColor(Color c){
+
+        Color newColor;
+        if (c.getColorname().equals("WHITE")) {
+            newColor = new Color("BLACK");
+        } else {
+            newColor = new Color("WHITE");
+        }
+        return newColor;
+    }
+
+    @Override
     public Pixmap getConcat(Pixmap p){
         System.out.println("Nouveau Pixmap PBM crée ! ");
         return new PBMPixmap(ConcatArtpixel(p) ,getSize(),getLigne1(),getLigne2(),getLigne3(),getLigneArtPixel(),p.getColArtPixel() ); //j'utilises ici ma methode ArtPixel

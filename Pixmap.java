@@ -10,8 +10,6 @@ public abstract class Pixmap {
 
     private String file;
     private Integer Size;
-
-    private Pixmap pixmap;
     private ArtPixel[][] artPixels;
 
     private String ligne1;
@@ -28,7 +26,7 @@ public abstract class Pixmap {
 
     public Pixmap(Pixmap pixmap) {
         this.artPixels = pixmap.getArtPixels();
-        this.setSize(pixmap.getSize());
+        setSize(pixmap.getSize());
         this.ligne1 = pixmap.getLigne1();
         this.ligne2 = pixmap.getLigne2();
         this.ligne3 = pixmap.getLigne3();
@@ -65,6 +63,14 @@ public abstract class Pixmap {
         this.ligne2 = ligne2;
     }
 
+    public String getLigne3() {
+        return ligne3;
+    }
+
+    public void setLigne3(String ligne3) {
+        this.ligne3 = ligne3;
+    }
+
     public int getLigneArtPixel() {
         return ligneArtPixel;
     }
@@ -79,14 +85,6 @@ public abstract class Pixmap {
 
     public void setColArtPixel(int colArtPixel) {
         this.colArtPixel = colArtPixel;
-    }
-
-    public String getLigne3() {
-        return ligne3;
-    }
-
-    public void setLigne3(String ligne3) {
-        this.ligne3 = ligne3;
     }
 
     public String getFile() {
@@ -105,14 +103,6 @@ public abstract class Pixmap {
         this.Size = size;
     }
 
-    public Pixmap getPixmap() {
-        return pixmap;
-    }
-
-    public void setPixmap(Pixmap pixmap) {
-        this.pixmap = pixmap;
-    }
-
     public ArtPixel[][] getArtPixels() {
         return artPixels;
     }
@@ -121,11 +111,11 @@ public abstract class Pixmap {
         this.artPixels = artPixels;
     }
 
+    //Methodes A GENERER
+
     public void setPixelColor(Integer xPos,Integer yPos,Color color){
         this.artPixels[xPos][yPos].setColor(color);
     }
-
-    //Methodes A GENERER
 
     public void resize(double valeur){
         int newvaleur = (int)( getSize() * valeur );
@@ -167,7 +157,7 @@ public abstract class Pixmap {
            //        nouvellelongueur+" : "+
            //        nouvellelargeur );
 
-            switch (position){
+            switch (position.toLowerCase()){
 
                 case "top-left" :
                     for (int i = 0 ; i < nouvellelongueur; i++) {
@@ -227,8 +217,7 @@ public abstract class Pixmap {
                     }
                     break;
                 default:
-                    System.out.println("Erreur METHODE INSERT");
-                    break;
+                    throw new RuntimeException("Erreur METHODE INSERT");
             }
             setArtPixels(newArt);
         }}
@@ -239,6 +228,7 @@ public abstract class Pixmap {
             Integer.parseInt(value);
             return true;
         } catch (NumberFormatException e) {
+            System.out.println("Erreur conversion en INT : "+e);
             return false;
         }
     }
@@ -282,6 +272,8 @@ public abstract class Pixmap {
     }
 
     //Quelques methodes Abstraites
+
+    public abstract Pixmap doSomethingSpecial();
 
     public abstract Pixmap getConcat(Pixmap p);
 

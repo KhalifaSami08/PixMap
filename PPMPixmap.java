@@ -28,6 +28,72 @@ public class PPMPixmap extends Pixmap{
     }
 
     @Override
+    public PPMPixmap doSomethingSpecial(){
+
+        ArtPixel[][] artParam = getArtPixels();
+        ArtPixel[][] newArtixel = new ArtPixel[artParam.length][artParam[0].length];
+        for (int i = 0; i < artParam.length; i++) {
+            for (int j = 0; j < artParam[0].length; j++) {
+                newArtixel[i][j] = artParam[i][j];
+                newArtixel[i][j].setColor( inverseColor( artParam[i][j].getColor() ) );
+            }
+        }
+        return new PPMPixmap(newArtixel,getSize(),getLigne1(),getLigne2(),getLigne3(),getLigneArtPixel(),getColArtPixel() ) ;
+    }
+
+    private Color inverseColor(Color c){
+
+        Color newColor;
+        if(c.getColorname() != null){
+
+            switch (c.getColorname() ){
+                case "GREEN" :
+                    newColor = new Color("ORANGE");
+                    break;
+
+                case "YELLOW" :
+                    newColor = new Color("PURPLE");
+                    break;
+
+                case "BLUE" :
+                    newColor = new Color("RED");
+                    break;
+
+                case "RED" :
+                    newColor = new Color("BLUE");
+                    break;
+
+                case "BLACK" :
+                    newColor = new Color("WHITE");
+                    break;
+
+                case "WHITE" :
+                    newColor = new Color("BLACK");
+                    break;
+
+                case "ORANGE" :
+                    newColor = new Color("GREEN");
+                    break;
+
+                case "PURPLE" :
+                    newColor = new Color("YELLOW");
+                    break;
+
+                default:
+                    throw new RuntimeException("Erreur SWAP couleur");
+            }
+        }else{ //pour le gris on garde les memes valeurs
+            int max = Integer.parseInt(getLigne3());
+            double newR = max - c.getR()  * max / 255 ;
+            int newGris = (int)newR *255 / max;
+            newColor = new Color(newGris,newGris,newGris);
+        }
+
+
+        return newColor;
+    }
+
+    @Override
     public void LireFichier(String fichier) {
         try {
             File fichierPPM = new File("C:\\Users\\mklfs\\IdeaProjects\\Hola\\src\\Projet_JAVA_Sami_Khalifa\\Pixmap\\"+fichier);
